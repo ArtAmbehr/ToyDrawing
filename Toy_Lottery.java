@@ -15,25 +15,22 @@ public class Toy_Lottery {
     }
 
     public int getToy_count() {
-        System.out.println("Количечтово игрушек = ");
+        System.out.println("Количество игрушек = ");
         return toy_count;
     }
 
-    // добавить игрушку в розыгрыш
     public List<Toy> add_toy_in_listToy(Toy name) {
         listToys.add(name);
         toy_count++;
         return listToys;
     }
 
-    // удалить игрушку из спискка по имени
     private List<Toy> delete_toy_in_listToy(Toy name) {
         listToys.remove(name);
         toy_count--;
         return listToys;
     }
 
-    // запись выигрышных игрушек в файл ".txt"
     private void saveInFile() {
         try (FileWriter writer = new FileWriter("winning_toys.txt", true)) {
             String text = listToys.get(0).getToy_name();
@@ -44,7 +41,6 @@ public class Toy_Lottery {
         }
     }
 
-    // чтение файла с выигранными игрушками
     public void readFile() {
         try {
             FileReader fr = new FileReader("winning_toys.txt");
@@ -60,32 +56,29 @@ public class Toy_Lottery {
         }
     }
 
-    // Розыгрыш, с регулируемым шансом на победу
-    // если выигрыш, то записываем имя игрушки в файл
-    // и удаляем её из списка разыгрываемых игрушек
     public void lottteryToy() {
         Scanner scan = new Scanner(System.in);
         int chance = 50;
-        System.out.println("Шанс на выигрышь по умолчанию 50%");
-        System.out.println("Если хотите изменить шанс на победу, нажмите 1");
-        System.out.println("Если хотите оставить шанс на победу по умолчанию, нажмите 2");
+        System.out.println("Вероятность выигрыша изначально составляет 50%");
+        System.out.println("Если хотите изменить шансы на победу, нажмите 1");
+        System.out.println("Если хотите оставить вероятность выигрыша 50%, нажмите 2");
         String changeСhance = scan.next();
         if (changeСhance.equals("1")) {
-            System.out.println("введите число от 1 до 100, это процентное соотношение на победу!");
+            System.out.println("Введите число от 1 до 100, это процентное соотношение на победу!");
             chance = scan.nextInt();
         }
         if (chance >= 0 && chance <= 100) {
             Random rnd = new Random();
             int num = rnd.nextInt(100);
             if (num > chance) {
-                System.out.println("вы проиграли, попробуйте cнова");
+                System.out.println("Вы проиграли, попробуйте cнова");
             } else if (num < chance) {
-                System.out.println("поздравляю, вы выйграли!!!");
+                System.out.println("Вы выиграли!");
                 saveInFile();
                 delete_toy_in_listToy(listToys.get(0));
             }
         } else {
-            System.out.println("Вы ввели не верное значение! попробуйте снова..");
+            System.out.println("Вы ввели неверное значение. Попробуйте снова");
         }
     }
 }
